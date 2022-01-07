@@ -4,7 +4,15 @@
 class Game
 
   def initialize
-    @numb = generate_number
+    @number = generate_number
+  end
+
+  def choose_input
+    puts 'Guess the code the computer chose! (It has 4 digits)'
+    guess = gets.chomp
+    arr = guess.split('')
+
+    compare_digits(arr)
   end
 
   private
@@ -12,7 +20,10 @@ class Game
   def generate_number
     numbers = []
     4.times { numbers << rand(10) }
-    numbers.join('')
+    numbers
+  end
+
+  def compare_digits(arr)
   end
 end
 
