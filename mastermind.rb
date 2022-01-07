@@ -1,13 +1,13 @@
-require 'pry-byebug'
 # frozen_string_literal: true
 
+require 'pry-byebug'
 # Class including all game info
 class Game
   def initialize
     @number = generate_number
   end
 
-  def choose_input()
+  def choose_input
     puts 'Guess the code the computer chose! (It has 4 digits)'
     guess = gets.chomp
     arr = guess.split('')
@@ -57,7 +57,7 @@ until guesses > 12
     puts 'You have chosen the correct code! Congrats'
     break
   when 'loser'
-    if guesses == 12 
+    if guesses == 12
       puts 'You lost! Better luck next time!'
     else
       puts 'Try Again!'
