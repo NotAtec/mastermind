@@ -78,6 +78,8 @@ class HumanSolver
     play
   end
 
+  private
+
   def play
     until @guesses >= 12
       result = attempt
@@ -118,6 +120,8 @@ class Game
     @code = @maker == 'CPU' ? generate_code : input_code
     @maker == 'CPU' ? HumanSolver.new(@code) : ComputerSolver.new(@code)
   end
+
+  private
 
   def generate_code
     code = []
