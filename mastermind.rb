@@ -51,6 +51,19 @@ module TextMessages
   def guess_prompt
     puts 'Guess the code the computer chose! (It has 4 digits)'
   end
+
+  def display_result(result)
+    puts "You got #{result[0]} digits exactly right!"
+    puts "You got #{result[1]} digits right, but in the wrong place."
+  end
+
+  def win_message
+    puts 'You cracked the code! Congratulations!'
+  end
+
+  def loss_message
+    puts 'You ran out of tries, better luck next time!'
+  end
 end
 
 # Class containing logic for solving human
@@ -61,12 +74,16 @@ class HumanSolver
 
   def initialize(code)
     @code = code
+    @guesses = 0
     play
   end
 
   def play
-    p @code
-    p attempt
+    until @guesses >= 12
+      result = attempt
+      return if result.nil? ? false : process(result)
+    end
+    loss_message if @guesses == 12
   end
 
   def attempt
@@ -78,6 +95,17 @@ class HumanSolver
     guess_prompt
     gets.chomp.split('')
   end
+
+  def process(result)
+    if result[0] == 4
+      win_message
+      @guesses = 15
+    else
+      display_result(result)
+      @guesses += 1
+    end
+    false
+  end
 end
 
 class ComputerSolver
@@ -88,7 +116,7 @@ class Game
   def initialize(maker)
     @maker = maker
     @code = @maker == 'CPU' ? generate_code : input_code
-    @maker == 'CPU' ? HumanSolver.new(@code) : ComputerSolver.solve(@code)
+    @maker == 'CPU' ? HumanSolver.new(@code) : ComputerSolver.new(@code)
   end
 
   def generate_code
