@@ -7,34 +7,6 @@ class Game
     @number = generate_number
   end
 
-  def choose_input
-    puts 'Guess the code the computer chose! (It has 4 digits)'
-    guess = gets.chomp
-    arr = guess.split('')
-    if valid_guess?(arr)
-      results = compare_digits(arr)
-      return 'winner' if results[0] == 4
-
-      puts "You got #{results[0]} digits exactly right!\n"
-      puts "And #{results[1]} of the digits were in the wrong place\n"
-      'loser'
-    else
-      'error'
-    end
-  end
-
-  private
-
-  def generate_number
-    numbers = []
-    4.times { numbers << rand(10) }
-    numbers
-  end
-
-  def valid_guess?(arr)
-    arr.length == 4
-  end
-
   def compare_digits(arr)
     correct = 0
     close = 0
@@ -45,13 +17,52 @@ class Game
     end
     [correct, close]
   end
+
+  private
+
+  def generate_number
+    numbers = []
+    4.times { numbers << rand(10) }
+    numbers
+  end
+end
+
+# Class including all rules & checks for player input
+class Rules
+  def self.choose_input(game)
+    puts 'Guess the code the computer chose! (It has 4 digits)'
+    guess = gets.chomp
+    arr = guess.split('')
+    if valid_guess?(arr)
+      results = game.compare_digits(arr)
+      return 'winner' if results[0] == 4
+
+      show_results(results)
+    else
+      'error'
+    end
+  end
+
+  class << self
+    private
+
+    def valid_guess?(arr)
+      arr.length == 4
+    end
+
+    def show_results(results)
+      puts "You got #{results[0]} digits exactly right!\n"
+      puts "And #{results[1]} of the digits were in the wrong place\n"
+      'loser'
+    end
+  end
 end
 
 guesses = 0
 game = Game.new
 
 until guesses > 12
-  result = game.choose_input
+  result = Rules.choose_input(game)
   case result
   when 'winner'
     puts 'You have chosen the correct code! Congrats'
