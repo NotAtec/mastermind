@@ -1,80 +1,105 @@
 # frozen_string_literal: true
 
 require 'pry-byebug'
-# Class including all game info
-class Game
-  def initialize
-    @number = generate_number
+# Module with logic for both human & computer solving
+module SolvingLogic
+  def results(guess)
+    temp_g = guess.clone
+    temp_m = @code.clone
+    exact = exact(temp_g, temp_m)
+    close = close(temp_g, temp_m)
+
+    [exact, close]
   end
 
-  def compare_digits(arr)
-    correct = 0
+  def exact(guess, code)
+    exact = 0
+    code.each_with_index do |digit, index|
+      next unless digit == guess[index].to_i
+
+      exact += 1
+      code[index] = '*'
+      guess[index] = '*'
+    end
+    exact
+  end
+
+  def close(guess, code)
     close = 0
+    code.each do |digit|
+      next if digit == '*'
 
-    arr.each_with_index do |v, idx|
-      correct += 1 if v.to_i == @number[idx]
-      close += 1 if @number.include?(v.to_i) && v.to_i != @number[idx]
+      close += 1 if guess.include?(digit.to_s)
     end
-    [correct, close]
-  end
-
-  private
-
-  def generate_number
-    numbers = []
-    4.times { numbers << rand(10) }
-    numbers
+    close
   end
 end
 
-# Class including all rules & checks for player input
-class Rules
-  def self.choose_input(game)
+# Methods checking if player input is allowed
+module InputValidation
+  def valid_guess?(guess)
+    guess.length == 4
+  end
+end
+
+# Methods that output text on the screen
+module TextMessages
+  def guess_error
+    puts 'Please input a 4 digit number, containing only numeric characters!'
+  end
+
+  def guess_prompt
     puts 'Guess the code the computer chose! (It has 4 digits)'
-    guess = gets.chomp
-    arr = guess.split('')
-    if valid_guess?(arr)
-      results = game.compare_digits(arr)
-      return 'winner' if results[0] == 4
-
-      show_results(results)
-    else
-      'error'
-    end
-  end
-
-  class << self
-    private
-
-    def valid_guess?(arr)
-      arr.length == 4
-    end
-
-    def show_results(results)
-      puts "You got #{results[0]} digits exactly right!\n"
-      puts "And #{results[1]} of the digits were in the wrong place\n"
-      'loser'
-    end
   end
 end
 
-guesses = 0
-game = Game.new
+# Class containing logic for solving human
+class HumanSolver
+  include InputValidation
+  include TextMessages
+  include SolvingLogic
 
-until guesses > 12
-  result = Rules.choose_input(game)
-  case result
-  when 'winner'
-    puts 'You have chosen the correct code! Congrats'
-    break
-  when 'loser'
-    if guesses == 12
-      puts 'You lost! Better luck next time!'
-    else
-      puts 'Try Again!'
-      guesses += 1
-    end
-  when 'error'
-    puts 'Please input 4 digits!'
+  def initialize(code)
+    @code = code
+    play
+  end
+
+  def play
+    p @code
+    p attempt
+  end
+
+  def attempt
+    guess = player_guess
+    valid_guess?(guess) ? results(guess) : guess_error
+  end
+
+  def player_guess
+    guess_prompt
+    gets.chomp.split('')
   end
 end
+
+class ComputerSolver
+end
+
+# Class contains the game, and all required info to start solving
+class Game
+  def initialize(maker)
+    @maker = maker
+    @code = @maker == 'CPU' ? generate_code : input_code
+    @maker == 'CPU' ? HumanSolver.new(@code) : ComputerSolver.solve(@code)
+  end
+
+  def generate_code
+    code = []
+    4.times { code << rand(10) }
+    code
+  end
+
+  def input_code
+    # TD
+  end
+end
+
+Game.new('CPU')
