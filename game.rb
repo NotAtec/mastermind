@@ -3,6 +3,7 @@
 # Class contains the game, and all required info to start solving
 class Game
   include TextMessages
+  include InputValidation
 
   def initialize(maker)
     @maker = maker
@@ -19,6 +20,13 @@ class Game
   end
 
   def input_code
-    request_input
+    code = ''
+    until valid_code?(code)
+      request_input
+      code = gets.chomp
+      code = code.split('')
+      code.map!(&:to_i)
+    end
+    code
   end
 end
