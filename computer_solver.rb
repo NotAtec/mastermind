@@ -81,5 +81,3 @@ class ComputerSolver
     computer_loss if @guesses == 12
   end
 end
-
-ComputerSolver.new([0,1, 0,9])
