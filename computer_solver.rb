@@ -12,7 +12,7 @@ class ComputerSolver
   end
 
   def play
-    @bg = 0
+    @bg = 1
     @fg = []
     @result = []
     @prev_sum = 0
