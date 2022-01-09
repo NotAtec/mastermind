@@ -30,4 +30,8 @@ module TextMessages
   def computer_win(tries)
     puts "The computer cracked the code in #{tries} attempts!"
   end
+
+  def request_input
+    puts 'Please input a 4 digit numeric code, with numbers from 0 to 9'
+  end
 end

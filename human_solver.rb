@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class containing methods to get human input for guesses
 class HumanSolver
   include InputValidation
   include TextMessages

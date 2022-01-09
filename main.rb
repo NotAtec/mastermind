@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'solving_logic'
 require_relative 'input_validation'
 require_relative 'text_messages'
@@ -10,12 +12,12 @@ def player
   choice = gets.chomp
   case choice
   when '1'
-    return 'CPU'
+    'CPU'
   when '2'
-    return 'PLAY'
+    'PLAY'
   else
     puts "I asked you to input 1, or 2. Yeah you're gonna be breaking codes now."
-    return 'CPU'
+    'CPU'
   end
 end
 

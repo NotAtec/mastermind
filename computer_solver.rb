@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-require_relative 'solving_logic.rb'
-require_relative 'text_messages.rb'
-
 # Class containing code solving algorithm
 class ComputerSolver
   include TextMessages

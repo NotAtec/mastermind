@@ -2,6 +2,8 @@
 
 # Class contains the game, and all required info to start solving
 class Game
+  include TextMessages
+
   def initialize(maker)
     @maker = maker
     @code = @maker == 'CPU' ? generate_code : input_code
@@ -17,6 +19,6 @@ class Game
   end
 
   def input_code
-    # TD
+    request_input
   end
 end
