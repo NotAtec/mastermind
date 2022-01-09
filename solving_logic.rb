@@ -28,7 +28,7 @@ module SolvingLogic
     code.each do |digit|
       next if digit == '*'
 
-      close += 1 if guess.include?(digit.to_s)
+      close += 1 if guess.include?(digit.to_s) || guess.include?(digit)
     end
     close
   end
