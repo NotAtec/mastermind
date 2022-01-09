@@ -34,4 +34,8 @@ module TextMessages
   def request_input
     puts 'Please input a 4 digit numeric code, with numbers from 1 to 9'
   end
+
+  def computer_guessed(guess, result)
+    puts "The computer guessed #{guess}. It had #{result[0]} exactly right, and #{result[1]} were close."
+  end
 end

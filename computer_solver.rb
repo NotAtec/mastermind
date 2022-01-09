@@ -34,6 +34,7 @@ class ComputerSolver
       @prev_sum = @sum
       @result = results(guess)
       @sum = @result.reduce(:+)
+      computer_guessed(guess, @result)
 
       if @result[0] == 4
         computer_win(@guesses)
@@ -55,8 +56,9 @@ class ComputerSolver
         break if @guesses >= 12
 
         check = mutation.clone
-        check[i] = '10'
+        check[i] = '0'
         check_result = results(check)
+        computer_guessed(check, @result)
 
         if check_result[0] < result[0]
           # The checked position, was correct, drop all without [x] == [i]
@@ -67,6 +69,7 @@ class ComputerSolver
         end
 
         if permutations.uniq.length == 1
+          computer_guessed(permutations[0], results(permutations[0]))
           computer_win(@guesses)
           @guesses = 15
         end
