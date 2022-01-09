@@ -9,8 +9,7 @@ require_relative 'computer_solver'
 
 def player
   puts 'Do you want to be the code breaker (1), or the code maker (2)'
-  choice = gets.chomp
-  case choice
+  case gets.chomp
   when '1'
     'CPU'
   when '2'
