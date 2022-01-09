@@ -22,4 +22,12 @@ module TextMessages
   def loss_message
     puts 'You ran out of tries, better luck next time!'
   end
+
+  def computer_loss
+    puts "The computer was unable to beat the code within 12 attempts! \n Good Job!"
+  end
+
+  def computer_win(tries)
+    puts "The computer cracked the code in #{tries} attempts!"
+  end
 end

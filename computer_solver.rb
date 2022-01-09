@@ -2,16 +2,16 @@
 
 require 'pry-byebug'
 require_relative 'solving_logic.rb'
+require_relative 'text_messages.rb'
 
 # Class containing code solving algorithm
 class ComputerSolver
-  # include InputValidation
-  # include TextMessages
+  include TextMessages
   include SolvingLogic
 
   def initialize(code)
     @code = code
-    @guesses = 0
+    @guesses = 1
     play
   end
 
@@ -31,7 +31,7 @@ class ComputerSolver
       end
       break if @sum == 4
 
-      @bg += 1 unless @guesses.zero?
+      @bg += 1 unless @guesses == 1
       guess = @fg.clone
       guess.push(@bg) until guess.length == 4
 
@@ -39,20 +39,25 @@ class ComputerSolver
       @result = results(guess)
       @sum = @result.reduce(:+)
 
-      @guesses = 15 if @result[0] == 4
-      break if @result[0] == 4
+      if @result[0] == 4
+        computer_win(@guesses)
+        @guesses = 15
+        break
+      end
 
       @guesses += 1
     end
 
     loop do
-      return if @guesses >= 12
+      break if @guesses >= 12
 
       permutations = @fg.permutation.to_a
       mutation = permutations[0]
       result = results(mutation)
 
       4.times do |i|
+        break if @guesses >= 12
+
         check = mutation.clone
         check[i] = '10'
         check_result = results(check)
@@ -64,15 +69,17 @@ class ComputerSolver
           # The checked position was incorrect, drop all with [x] == [i]
           permutations.keep_if { |x| x[i] != mutation[i] }
         end
-        @act_guess = @guesses if permutations.uniq.length == 1
-        @guesses = 15 if permutations.uniq.length == 1
 
-        break if @guesses >= 12
+        if permutations.uniq.length == 1
+          computer_win(@guesses)
+          @guesses = 15
+        end
 
         @guesses += 1
       end
     end
+    computer_loss if @guesses == 12
   end
 end
 
-ComputerSolver.new([0, 1, 0, 5])
+ComputerSolver.new([0,1, 0,9])

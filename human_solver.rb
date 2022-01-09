@@ -5,7 +5,7 @@ class HumanSolver
 
   def initialize(code)
     @code = code
-    @guesses = 0
+    @guesses = 1
     play
   end
 
