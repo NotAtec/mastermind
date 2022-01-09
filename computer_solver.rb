@@ -22,7 +22,7 @@ class ComputerSolver
     @prev_sum = 0
     @sum = 0
 
-    while true
+    loop do
       break if @guesses >= 12
 
       if @sum > @prev_sum
@@ -39,14 +39,15 @@ class ComputerSolver
       @result = results(guess)
       @sum = @result.reduce(:+)
 
-      
       @guesses = 15 if @result[0] == 4
       break if @result[0] == 4
 
       @guesses += 1
     end
 
-    unless @guesses >= 12
+    loop do
+      return if @guesses >= 12
+
       permutations = @fg.permutation.to_a
       mutation = permutations[0]
       result = results(mutation)
