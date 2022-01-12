@@ -14,3 +14,8 @@ This game of mastermind is 1-player, and played in the CLI. You can choose to br
 In both cases, the **code-breaker** has 12 attempts to guess the correct code.
 
 **The computer algorithm isn't that great, so you can probably beat it!*
+
+## Built With
+- Ruby
+- Pry Byebug for debugging
+- OOP Paradigm
